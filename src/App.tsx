@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldCheck, FileText, BrainCircuit, ClipboardCheck, QrCode, Mail, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, FileText, BrainCircuit, ClipboardCheck, QrCode, Mail, CheckCircle2, X } from 'lucide-react';
 
 const SummeetLogo = () => (
   <div className="flex flex-col items-center mt-12 bg-white p-4 rounded-xl shadow-lg inline-block">
@@ -17,6 +17,8 @@ const SummeetLogo = () => (
 export default function App() {
   const [email, setEmail] = useState('');
   const [isSent, setIsSent] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showCookie, setShowCookie] = useState(false);
 
   const handleSendEmail = (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,6 +113,10 @@ export default function App() {
                     <Mail className="w-5 h-5" />
                     Invia Link al mio PC
                   </button>
+                  <p className="text-xs text-gray-400 mt-4 text-center px-2">
+                    Inviando questo modulo acconsenti al trattamento dei tuoi dati personali 
+                    secondo la nostra <button type="button" onClick={() => setShowPrivacy(true)} className="underline hover:text-white transition-colors">Informativa Privacy</button>.
+                  </p>
                 </form>
               )}
             </div>
@@ -204,7 +210,8 @@ export default function App() {
       {/* Footer */}
       <footer className="w-full border-t border-[#14326b] bg-[#07112a] py-10 text-center text-sm text-gray-400 z-20">
         <div className="flex justify-center gap-8 mb-8">
-          <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+          <button onClick={() => setShowPrivacy(true)} className="hover:text-white transition-colors">Privacy Policy</button>
+          <button onClick={() => setShowCookie(true)} className="hover:text-white transition-colors">Cookie Policy</button>
           <a href="#" className="hover:text-white transition-colors">Termini e Condizioni</a>
           <a href="#" className="hover:text-white transition-colors">Contatti</a>
         </div>
@@ -213,6 +220,45 @@ export default function App() {
         </div>
         <p className="text-xs">© 2026 Synaptica. Tutti i diritti riservati.</p>
       </footer>
+
+      {/* Privacy Policy Modal */}
+      {showPrivacy && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-[#0b1b42] border border-[#40c4ff]/40 rounded-2xl w-full max-w-2xl max-h-[80vh] overflow-y-auto shadow-[0_0_40px_rgba(64,196,255,0.15)]">
+            <div className="sticky top-0 bg-[#0b1b42] p-4 border-b border-[#40c4ff]/20 flex justify-between items-center">
+              <h2 className="text-xl font-bold text-white">Informativa Privacy</h2>
+              <button onClick={() => setShowPrivacy(false)} className="p-1 hover:bg-white/10 rounded-full transition-colors">
+                <X className="w-6 h-6 text-gray-300" />
+              </button>
+            </div>
+            <div className="p-6 text-gray-300 space-y-4 text-sm md:text-base leading-relaxed">
+              <p><strong className="text-white">Titolare del Trattamento:</strong> Summeet S.r.l.</p>
+              <p><strong className="text-white">Finalità del trattamento:</strong> I dati forniti (indirizzo email) vengono utilizzati esclusivamente per permettere l'invio del link di accesso al corso ECM tramite il proprio client di posta. Raccogliamo inoltre dati di navigazione in forma anonima per finalità statistiche (es. numero di visite, area geografica approssimativa) per capire l'utilizzo della piattaforma.</p>
+              <p><strong className="text-white">Conservazione dei dati:</strong> Nessun indirizzo email viene salvato o conservato nei nostri database per finalità di marketing. L'invio dell'email avviene direttamente tramite l'applicazione di posta del tuo dispositivo (protocollo mailto).</p>
+              <p><strong className="text-white">Diritti dell'interessato:</strong> Ai sensi del GDPR, hai il diritto di richiedere l'accesso, la rettifica o la cancellazione dei tuoi dati contattando Summeet S.r.l.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Cookie Policy Modal */}
+      {showCookie && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-[#0b1b42] border border-[#40c4ff]/40 rounded-2xl w-full max-w-2xl max-h-[80vh] overflow-y-auto shadow-[0_0_40px_rgba(64,196,255,0.15)]">
+            <div className="sticky top-0 bg-[#0b1b42] p-4 border-b border-[#40c4ff]/20 flex justify-between items-center">
+              <h2 className="text-xl font-bold text-white">Cookie Policy</h2>
+              <button onClick={() => setShowCookie(false)} className="p-1 hover:bg-white/10 rounded-full transition-colors">
+                <X className="w-6 h-6 text-gray-300" />
+              </button>
+            </div>
+            <div className="p-6 text-gray-300 space-y-4 text-sm md:text-base leading-relaxed">
+              <p>Questo sito utilizza cookie tecnici strettamente necessari per il corretto funzionamento della piattaforma.</p>
+              <p>Inoltre, utilizziamo cookie analitici di terze parti (in forma anonimizzata) per raccogliere informazioni statistiche aggregate sull'utilizzo del sito (es. numero di visitatori, provenienza geografica approssimativa), al fine di misurare l'efficacia della pagina.</p>
+              <p>Continuando a navigare e utilizzando i servizi della pagina, accetti l'utilizzo di tali cookie essenziali e analitici anonimizzati.</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
